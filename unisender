@@ -1,0 +1,60 @@
+#!/bin/bash
+
+. ~/.config/unisender/config
+
+export GETOPT_STRING="k:t:f:"
+export LONG_GETOPT_STRING="key:,to:,from:"
+
+. ./getopt_long.bash
+long_getopt_parse "$@"
+
+function usage(){
+cat <<END
+	Usage: `basename $0` [options] message
+
+	Unisender script to send SMS messages via http://unisender.com service.
+	To use it you are must be registered user and have positive balance. Then you should take api_key
+	what is required to perform any actions. You may provide it each time call this script via --key,
+	alternatively you may place it in config file: ~/.config/unisender/config as API_KEY
+
+	Supported options:
+	--key, -k
+			Unisender-api key. Must be taken from site.
+			API_KEY variable in config file.
+	--from, -f
+			From whom send message. Maximum 11 symbols.
+			FROM variable
+	--to, -t
+			To whom send. Number in international format. F.e. 79991234567.
+			TO variable in config.
+
+	Command-line options always have greater priority than config.
+
+	Author: Pavel Alexeev aka Pahan-Hubbitus - mail and jabber: pahan@hubbitus.info.
+	Feel free contact me with any ideas and questions.
+END
+exit 101
+}
+
+# Oreder: Config, long option, short option
+API_KEY=${API_KEY:-${OPTkey:-${OPTk}}}
+FROM=${FROM:-${OPTfrom:-${OPTf}}}
+TO=${TO:-${OPTto:-${OPTt}}}
+MESSAGE=$NON_OPT
+
+# Debug
+#echo API_KEY=$API_KEY
+#echo FROM=$FROM
+#echo TO=$TO
+#echo MESSAGE=$MESSAGE
+#echo 1=$1
+#echo 2=$2
+
+[ ! "$API_KEY" ] && echo "Not enough arguments: API_KEY is required." && usage
+[ ! "$FROM" ] && echo "Not enough arguments: FROM is required." && usage
+[ ! "$TO" ] && echo "Not enough arguments: TO is required." && usage
+[ ! "$MESSAGE" ] && echo "Not enough arguments: Message to send is required." && usage
+
+echo | tee -a ${LOG_FILE}
+date | tee -a ${LOG_FILE}
+curl -sS 'http://api.unisender.com/ru/api/sendSms' --data "format=json&api_key=${API_KEY}&phone=${TO}&sender=${FROM}" --data-urlencode "text=$MESSAGE" | tee -a ${LOG_FILE}

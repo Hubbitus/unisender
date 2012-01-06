@@ -1,0 +1,7 @@
+Unisender script to send SMS messages via http://unisender.com service.
+	To use it you are must be registered user and have positive balance. Then you should take api_key
+	what is required to perform any actions. You may provide it each time call this script via --key,
+	alternatively you may place it in config file: ~/.config/unisender/config as API_KEY
+
+	Author: Pavel Alexeev aka Pahan-Hubbitus - mail and jabber: pahan@hubbitus.info.
+	Feel free contact me with any ideas and questions.
