@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . ~/.config/unisender/config
+. ./.config
 
 export GETOPT_STRING="k:t:f:"
 export LONG_GETOPT_STRING="key:,to:,from:"

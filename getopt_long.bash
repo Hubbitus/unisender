@@ -40,7 +40,7 @@ set -- `$getopt_CMD -u --options "$GETOPT_STRING" --longoptions "$LONG_GETOPT_ST
 	shift
 	done
 #tail, to renew in caller
-export NON_OPT=$( echo $@ | sed -r 's/^-- //' )
+export NON_OPT=$( echo $@ | sed -r 's/^-- *//' )
 }
 
 #long_getopt_parse $@
