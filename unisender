@@ -33,6 +33,7 @@ cat <<END
 
 	Author: Pavel Alexeev aka Pahan-Hubbitus - mail and jabber: pahan@hubbitus.info.
 	Feel free contact me with any ideas and questions.
+	My blog: http://hosting-help.ru/ru/blog/48-unisender
 END
 exit 101
 }
