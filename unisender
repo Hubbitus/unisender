@@ -39,18 +39,10 @@ exit 101
 }
 
 # Oreder: Config, long option, short option
-API_KEY=${API_KEY:-${OPTkey:-${OPTk}}}
-FROM=${FROM:-${OPTfrom:-${OPTf}}}
-TO=${TO:-${OPTto:-${OPTt}}}
-MESSAGE=$NON_OPT
-
-# Debug
-#echo API_KEY=$API_KEY
-#echo FROM=$FROM
-#echo TO=$TO
-#echo MESSAGE=$MESSAGE
-#echo 1=$1
-#echo 2=$2
+API_KEY="${OPTkey:-${OPTk:-${API_KEY}}}"
+FROM="${OPTfrom:-${OPTf:-${FROM}}}"
+TO="${OPTto:-${OPTt:-${TO}}}"
+MESSAGE="$NON_OPT"
 
 [ ! "$API_KEY" ] && echo "Not enough arguments: API_KEY is required." && usage
 [ ! "$FROM" ] && echo "Not enough arguments: FROM is required." && usage
@@ -59,4 +51,6 @@ MESSAGE=$NON_OPT
 
 echo | tee -a ${LOG_FILE}
 date | tee -a ${LOG_FILE}
+
 curl -sS 'http://api.unisender.com/ru/api/sendSms' --data "format=json&api_key=${API_KEY}&phone=${TO}&sender=${FROM}" --data-urlencode "text=$MESSAGE" | tee -a ${LOG_FILE}
+echo
