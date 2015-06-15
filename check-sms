@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Simple script to check status of previous sent messages
+
+: ${1?"Not enough arguments: `basename $0` sms-id"}
+
+. ~/.config/unisender/config
+. ./.config
+
+set -x
+
+curl -sS 'http://api.unisender.com/ru/api/checkSms' --data "format=json&api_key=${API_KEY}&sms_id=$1"
+echo
